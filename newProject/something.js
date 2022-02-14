@@ -185,6 +185,7 @@ class Chain{
   addBlock(transaction,senderPublicKey,signature){
     const newBlock = new Block(this.lastBlock.hash,transaction);
     this.chain.push(newBlock);
+    
     const verifier = crypto.createVerify('SHA256');
     verifier.update(transaction.toString());
     const isValid = verifier.verify(senderPublicKey,signature);
@@ -217,12 +218,12 @@ class Wallet{
     sign.update(transaction.toString()).end();
 
     const signature = sign.sign(this.privateKey);
-    const signature = 'approved';
+    //const signature = 'approved';
 
 
-    const chain = new Chain();
-    chain.addBlock(transaction,this.publicKey,signature);
-    //Chain.instance.addBlock(transaction,this.publicKey,signature);
+    //const chain = new Chain();
+    //chain.addBlock(transaction,this.publicKey,signature);
+    Chain.instance.addBlock(transaction,this.publicKey,signature);
   }
 }
 

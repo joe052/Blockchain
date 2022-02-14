@@ -1,5 +1,5 @@
 //import * as crypto from 'crypto';
-const crypto = require('crypto');
+//const crypto = require('crypto-js');
 const SHA256 = require('crypto-js/sha256');
 
 class Transaction{
@@ -55,50 +55,30 @@ class Chain{
   }
 
   //mine a new block
-  addBlock(transaction,senderPublicKey,signature){
-    const verifier = crypto.createVerify('SHA256');
-    verifier.update(transaction.toString());
-    const isValid = verifier.verify(senderPublicKey,signature);
-    
-    if(isValid){
-      const newBlock = new Block(this.getLatestBlock().hash,transaction);
-      newBlock.mineBlock(this.difficulty);
-      this.chain.push(newBlock);
-    }
+  addBlock(transaction){
+    const newBlock = new Block(this.getLatestBlock().hash,transaction);
+    newBlock.mineBlock(this.difficulty);
+    this.chain.push(newBlock);
   }
 
 }
 
 class Wallet{
     
-  constructor(){
-   // this.publicKey = publicKey;
-
-    const keypair = crypto.generateKeyPairSync('rsa',{
-      modulusLength: 2048,
-      publicKeyEncoding: {type: 'spki',format: 'pem'},
-      privateKeyEncoding: {type: 'pkcs8',format: 'pem'},
-    });
-    this.privateKey = keypair.privateKey;
-    this.publicKey = keypair.publicKey;
+  constructor(publicKey){
+    this.publicKey = publicKey;
   }
 
   sendMoney(amount,payeePublicKey){
-    const transaction = new Transaction(this.publicKey,payeePublicKey,amount); 
-
-    const sign = crypto.createSign('SHA256');
-    sign.update(transaction.toString()).end();
-
-    const signature = sign.sign(this.privateKey);
-    Chain.instance.addBlock(transaction,this.publicKey,signature);
-    //Chain.instance.addBlock(transaction);
+    const transaction = new Transaction(this.publicKey,payeePublicKey,amount);                
+    Chain.instance.addBlock(transaction);
     console.log(transaction);
   }
 }
 
-const satoshi = new Wallet();
-const bob = new Wallet();
-const alice = new Wallet();
+const satoshi = new Wallet('satoshi');
+const bob = new Wallet('bob');
+const alice = new Wallet('alice');
 
 satoshi.sendMoney(50,bob.publicKey);
 bob.sendMoney(35,alice.publicKey);

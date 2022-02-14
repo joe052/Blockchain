@@ -8,5 +8,6 @@
   },
   "scripts": {
     "dev": "tsc -w"
-  }
+  },
+  "type": "commonjs"
 }
