@@ -19,7 +19,8 @@ class Transaction{
 class Block{
   constructor(previousHash = '',transaction,date = Date.now()){
      this.previousHash = previousHash;
-     this.transaction = JSON.stringify(transaction);
+     this.transaction = transaction;
+     //this.transaction = JSON.stringify(transaction);
      this.date = date;
      this.hash = this.calculateHash();
      this.nonce = 0; 
@@ -61,6 +62,21 @@ class Chain{
     this.chain.push(newBlock);
   }
 
+  //get balance
+  getBalanceOfAddress(address){
+    let balance = 0;
+    for(const block of this.chain){
+      const trans = block.transaction
+      if(trans.payer === address){
+        balance -= trans.amount;
+      }
+      if(trans.payee === address){
+        balance += trans.amount;
+      }
+    }
+    return balance;
+  }
+
 }
 
 class Wallet{
@@ -85,3 +101,5 @@ bob.sendMoney(35,alice.publicKey);
 alice.sendMoney(57,bob.publicKey);
 
 console.log(Chain.instance);
+
+console.log("Balance of bob is ",Chain.instance.getBalanceOfAddress(alice.publicKey));
