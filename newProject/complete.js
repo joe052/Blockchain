@@ -80,15 +80,17 @@ class Chain{
 }
 
 class Wallet{
-    
+
   constructor(publicKey){
     this.publicKey = publicKey;
     this.minimum = 100;
+    //this.bal = bal;
   }
 
   sendMoney(amount,payeePublicKey){
     let minimum = this.minimum;
     let availableBal = Chain.instance.getBalanceOfAddress(this.publicKey);
+    //let availableBal = chainBal + this.bal;
     
     if(availableBal > 0 && availableBal >= amount){
       if(amount >= minimum){
@@ -111,8 +113,8 @@ const bob = new Wallet('bob');
 const alice = new Wallet('alice');
 
 satoshi.sendMoney(200,bob.publicKey);
-bob.sendMoney(100,alice.publicKey);
-alice.sendMoney(101,bob.publicKey);
+bob.sendMoney(150,alice.publicKey);
+alice.sendMoney(100,bob.publicKey);
 
 console.log(Chain.instance);
 
