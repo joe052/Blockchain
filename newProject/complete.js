@@ -102,4 +102,4 @@ alice.sendMoney(57,bob.publicKey);
 
 console.log(Chain.instance);
 
-console.log("Balance of bob is ",Chain.instance.getBalanceOfAddress(alice.publicKey));
+console.log("Balance of bob is ",Chain.instance.getBalanceOfAddress(bob.publicKey));
