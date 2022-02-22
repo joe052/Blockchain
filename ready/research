@@ -1,0 +1,3 @@
+//https://www.tutorialsteacher.com/nodejs/nodejs-module-exports
+//module.exports = Chain.instance;
+//export const chain = Chain.instance;
