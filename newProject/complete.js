@@ -113,7 +113,7 @@ const bob = new Wallet('bob');
 const alice = new Wallet('alice');
 
 satoshi.sendMoney(200,bob.publicKey);
-bob.sendMoney(150,alice.publicKey);
+bob.sendMoney(15,alice.publicKey);
 alice.sendMoney(100,bob.publicKey);
 
 console.log(Chain.instance);
