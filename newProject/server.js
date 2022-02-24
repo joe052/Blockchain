@@ -1,3 +1,4 @@
+const chain = require("./progress.js");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
@@ -48,4 +49,4 @@ app.post('/api/courses',(req,res)=>{
 app.get('/blockchain',(req,res)=>{
   res.send(chain);
 });
-//console.log(myModule);
+console.log(chain);
