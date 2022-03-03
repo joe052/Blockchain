@@ -111,6 +111,7 @@ class Wallet{
 const satoshi = new Wallet('satoshi');
 const bob = new Wallet('bob');
 const alice = new Wallet('alice');
+const amo = new Wallet('amo');
 
 satoshi.sendMoney(200,bob.publicKey);
 bob.sendMoney(15,alice.publicKey);
