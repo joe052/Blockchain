@@ -11,7 +11,7 @@ class Transaction {
   }
 
   toString() {
-    return JSON.stringify(this);
+    //return JSON.stringify(this);
   }
 
   generateId() {
