@@ -134,9 +134,9 @@ bob.transactLand(150, alice.publicKey);
 alice.transactLand(100, ann.publicKey);
 grace.transactLand(200, agnes.publicKey);
 
-//console.log(Chain.instance);
+//console.log(Chain.instance.chain);
 //console.log(JSON.stringify(Chain.instance,null,4));
-let chain = Chain.instance;
+let chain = Chain.instance.chain;
 
 console.log(`\nSatoshi owns ${Chain.instance.getBalanceOfAddress(satoshi.publicKey)} acres of land`);
 console.log(`Joe owns ${Chain.instance.getBalanceOfAddress(joe.publicKey)} acres of land`);
