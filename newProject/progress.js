@@ -51,7 +51,7 @@ class Chain {
     //create the genesis block
     this.chain = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
 
-    this.difficulty = 4;
+    this.difficulty = 3;
   }
 
   //get last block
