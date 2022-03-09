@@ -46,6 +46,41 @@ app.post('/api/courses',(req,res)=>{
   console.log(courses);
 });
 
+async getChain(transaction) {
+    const response = await fetch(myUrl);
+    const data = await response.json();
+    console.log("getting...");
+    this.addData(data,transaction);
+  }
+
+  //push new block with transaction to chain
+  addData(object,transaction) {
+    this.chain.push(object);
+    
+    //picking chain elements only #filtering
+    this.chain = this.chain[0];
+    console.log("This is the chain i fetched:")
+    //console.log(this.chain);
+
+    //special .length for objects...checking length of fetched chain
+    console.log(Object.keys(this.chain).length);
+
+    //getting latest block of chain
+    const latest = this.chain[Object.keys(this.chain).length -1];
+    //console.log("\nbelow lies the latest")
+    //console.log(latest.hash);
+
+    //creating and mining new block and adding transaction
+    const newBlock = new Block(latest.hash, transaction);
+    newBlock.mineBlock(this.difficulty);
+    console.log(transaction);
+    this.chain.push(newBlock);
+    console.log(this.chain);
+    console.log(Object.keys(this.chain).length);
+    console.log("\nupdate successfully complete!!")
+  }
+
+
 app.get('/blockchain',(req,res)=>{
   res.send(chain);
 });
