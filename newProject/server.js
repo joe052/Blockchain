@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+
+const myUrl = 'https://blockchain.michomapeter.repl.co/blockchain';
 
 const courses = [
   {id: 1, name: 'maths'},
@@ -46,44 +49,38 @@ app.post('/api/courses',(req,res)=>{
   console.log(courses);
 });
 
-async getChain(transaction) {
+let chainM =[];
+
+async function getChain() {
     const response = await fetch(myUrl);
     const data = await response.json();
-    console.log("getting...");
-    this.addData(data,transaction);
+    console.log("\ngetting...");
+    addData(data);
   }
 
   //push new block with transaction to chain
-  addData(object,transaction) {
-    this.chain.push(object);
+  function addData(object) {
+    chainM.push(object);
     
     //picking chain elements only #filtering
-    this.chain = this.chain[0];
+    chainM = chainM[0];
     console.log("This is the chain i fetched:")
-    //console.log(this.chain);
+    console.log(chainM);
 
     //special .length for objects...checking length of fetched chain
-    console.log(Object.keys(this.chain).length);
+    console.log(Object.keys(chainM).length);
 
     //getting latest block of chain
-    const latest = this.chain[Object.keys(this.chain).length -1];
+    const latest = chainM[Object.keys(chainM).length -1];
     //console.log("\nbelow lies the latest")
     //console.log(latest.hash);
-
-    //creating and mining new block and adding transaction
-    const newBlock = new Block(latest.hash, transaction);
-    newBlock.mineBlock(this.difficulty);
-    console.log(transaction);
-    this.chain.push(newBlock);
-    console.log(this.chain);
-    console.log(Object.keys(this.chain).length);
-    console.log("\nupdate successfully complete!!")
   }
 
 
 app.get('/blockchain',(req,res)=>{
   res.send(chain);
 });
+//getChain();
 console.log(chain);
 
 //https://geshan.com.np/blog/2021/01/free-nodejs-hosting/

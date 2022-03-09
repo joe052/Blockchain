@@ -128,11 +128,11 @@ satoshi.transactLand(200, bob.publicKey);
 satoshi.transactLand(200, manu.publicKey);
 satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
-satoshi.transactLand(200, peter.publicKey);
-satoshi.transactLand(200, grace.publicKey);
-bob.transactLand(150, alice.publicKey);
-alice.transactLand(100, ann.publicKey);
-grace.transactLand(200, agnes.publicKey);
+//satoshi.transactLand(200, peter.publicKey);
+//satoshi.transactLand(200, grace.publicKey);
+//bob.transactLand(150, alice.publicKey);
+//alice.transactLand(100, ann.publicKey);
+//grace.transactLand(200, agnes.publicKey);
 
 //console.log(Chain.instance.chain);
 //console.log(JSON.stringify(Chain.instance,null,4));
