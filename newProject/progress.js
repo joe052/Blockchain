@@ -138,12 +138,30 @@ class Wallet {
 /*-----------------------end of test---------------------------------------------*/
 
   async filterTransaction(){
+    let transArr = [];
+    let receiveArr = [];
+    let sendArr = [];
+    let availableBalance = Chain.instance.getBalanceOfAddress(this.publicKey);
+    
     const chain = await this.returner();
      for(const block of chain){
        const trans = block.transaction;
-       console.log(trans);
+       if(trans.owner == this.publicKey || trans.receiver == this.publicKey){
+         transArr.push(trans);
+       }
      }
+    console.log(transArr);
+    for(const x of transArr){
+      if(x.owner == this.publicKey){
+        sendArr.push(x);
+      }else{
+      receiveArr.push(x);
+      }
+    }
+  console.log(`sent transactions are ${sendArr.length}\nreceived transactions are ${receiveArr.length}\nbalance is ${availableBalance}`);
+    return transArr;
   }
+  
 }
 
 const satoshi = new Wallet('satoshi');
