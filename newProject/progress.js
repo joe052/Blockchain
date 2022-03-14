@@ -1,6 +1,8 @@
 //import * as crypto from 'crypto';
 //const crypto = require('crypto-js');
+const fetch = require('node-fetch');
 const SHA256 = require('crypto-js/sha256');
+const myUrl = "https://blockchain.joeroyalty00.repl.co/blockchain";
 
 class Transaction {
   constructor(owner, receiver, size) {
@@ -110,6 +112,38 @@ class Wallet {
     }
 
   }
+
+   /*----------------test to get the pure chain only------------------------------------------------*/
+  //get chain
+  async getPchain() {
+    const response = await fetch(myUrl);
+    const data = await response.json();
+    //console.log("getting...");
+    const newChain = this.addPdata(data);
+    //console.log(newChain);
+    return newChain;
+  }
+
+  //push chain
+  addPdata(object) {
+    let newChain = [];
+    newChain.push(object);
+    newChain = newChain[0];
+    return newChain;
+  }
+
+  returner(){
+    return this.getPchain();
+  }
+/*-----------------------end of test---------------------------------------------*/
+
+  async filterTransaction(){
+    const chain = await this.returner();
+     for(const block of chain){
+       const trans = block.transaction;
+       console.log(trans);
+     }
+  }
 }
 
 const satoshi = new Wallet('satoshi');
@@ -128,6 +162,8 @@ satoshi.transactLand(200, bob.publicKey);
 satoshi.transactLand(200, manu.publicKey);
 satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
+
+satoshi.filterTransaction();
 //satoshi.transactLand(200, peter.publicKey);
 //satoshi.transactLand(200, grace.publicKey);
 //bob.transactLand(150, alice.publicKey);

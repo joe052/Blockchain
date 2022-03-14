@@ -27,7 +27,7 @@ app.post('/data', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello world @Joe');
+  res.send('Build on progress... @Joe');
 });
 
 app.get('/api/courses', (req, res) => {
@@ -91,7 +91,7 @@ app.get('/blockchain', (req, res) => {
   res.send(chain);
 });
 //getChain();
-console.log(chain);
+//console.log(chain);
 
 //https://geshan.com.np/blog/2021/01/free-nodejs-hosting/
 //www.smashingmagazine.com/2021/01/nodejs-api-ethereum-blockchain/
