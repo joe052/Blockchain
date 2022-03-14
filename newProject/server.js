@@ -5,7 +5,8 @@ const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 
-const myUrl = 'https://blockchain.michomapeter.repl.co/blockchain';
+const myUrl1 = 'https://blockchain.michomapeter.repl.co/blockchain';
+const myUrl = 'https://client-blockchain.joeroyalty00.repl.co/blockchain';
 
 const courses = [
   { id: 1, name: 'maths' },
@@ -26,7 +27,7 @@ app.post('/data', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello world');
+  res.send('Hello world @Joe');
 });
 
 app.get('/api/courses', (req, res) => {
@@ -80,10 +81,12 @@ function addData(object) {
 async function getter() {
   if (getChain()) {
     chain = await getChain();
+  }else{
+    chain;
   }
 }
 
-getter();
+//getter();
 app.get('/blockchain', (req, res) => {
   res.send(chain);
 });
@@ -91,3 +94,4 @@ app.get('/blockchain', (req, res) => {
 console.log(chain);
 
 //https://geshan.com.np/blog/2021/01/free-nodejs-hosting/
+//www.smashingmagazine.com/2021/01/nodejs-api-ethereum-blockchain/
