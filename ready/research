@@ -4,6 +4,7 @@
 
 "type": "module"
 
+below is courtesy of https://www.tutorialsteacher.com/nodejs/nodejs-module-exports
 from my findings this is how you should export various stuff
     module.exports.chain = chain; //exporting chain
     module.exports.trans = transArr; //exporting transactions
