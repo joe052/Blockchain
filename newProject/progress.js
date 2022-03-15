@@ -1,8 +1,12 @@
 //import * as crypto from 'crypto';
 //const crypto = require('crypto-js');
+//import{fetch} from ('node-fetch');
+//import{SHA256} from ('crypto-js/sha256');
+
 const fetch = require('node-fetch');
 const SHA256 = require('crypto-js/sha256');
 const myUrl = "https://blockchain.joeroyalty00.repl.co/blockchain";
+let transArr = [];
 
 class Transaction {
   constructor(owner, receiver, size) {
@@ -138,7 +142,6 @@ class Wallet {
 /*-----------------------end of test---------------------------------------------*/
 
   async filterTransaction(){
-    let transArr = [];
     let receiveArr = [];
     let sendArr = [];
     let availableBalance = Chain.instance.getBalanceOfAddress(this.publicKey);
@@ -181,7 +184,7 @@ satoshi.transactLand(200, manu.publicKey);
 satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
 
-satoshi.filterTransaction();
+bob.filterTransaction();
 //satoshi.transactLand(200, peter.publicKey);
 //satoshi.transactLand(200, grace.publicKey);
 //bob.transactLand(150, alice.publicKey);
@@ -202,4 +205,6 @@ console.log(`Alice owns ${Chain.instance.getBalanceOfAddress(alice.publicKey)} a
 console.log(`Agnes owns ${Chain.instance.getBalanceOfAddress(agnes.publicKey)} acres of land`);
 console.log(`Ann owns ${Chain.instance.getBalanceOfAddress(ann.publicKey)} acres of land`);
 console.log(`Grace owns ${Chain.instance.getBalanceOfAddress(grace.publicKey)} acres of land`);
-module.exports = chain;
+
+module.exports.chain = chain;
+module.exports.trans = transArr;

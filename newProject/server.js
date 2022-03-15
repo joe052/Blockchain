@@ -1,4 +1,9 @@
-let chain = require("./progress.js");
+// import{chain} from ('./progress.js');
+// import{express} from ('express');
+// import{bodyParser} from ('body-parser');
+// import{fetch} from ('node-fetch');
+
+let impots = require("./progress.js");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
@@ -27,7 +32,7 @@ app.post('/data', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Build on progress... @Joe');
+  res.send('Build on progress... @Master');
 });
 
 app.get('/api/courses', (req, res) => {
@@ -80,18 +85,22 @@ function addData(object) {
 }
 async function getter() {
   if (getChain()) {
-    chain = await getChain();
+    impots.chain = await getChain();
   }else{
-    chain;
+    impots.chain;
   }
 }
 
 //getter();
 app.get('/blockchain', (req, res) => {
-  res.send(chain);
+  res.send(impots.chain);
+});
+
+app.get('/transactions', (req, res) => {
+  res.send(impots.trans);
 });
 //getChain();
-//console.log(chain);
+console.log(impots.chain);
 
 //https://geshan.com.np/blog/2021/01/free-nodejs-hosting/
 //www.smashingmagazine.com/2021/01/nodejs-api-ethereum-blockchain/
