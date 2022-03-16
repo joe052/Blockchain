@@ -175,7 +175,7 @@ const joe = new Wallet('joe');
 const grace = new Wallet('grace');
 const ann = new Wallet('ann');
 const isaac = new Wallet('isaac');
-const peter = new Wallet('peter');
+const wachira = new Wallet('wachira');
 const agnes = new Wallet('agnes');
 
 
@@ -183,6 +183,7 @@ satoshi.transactLand(200, bob.publicKey);
 satoshi.transactLand(200, manu.publicKey);
 satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
+satoshi.transactLand(300, wachira.publicKey);
 
 satoshi.filterTransaction();
 //satoshi.transactLand(200, peter.publicKey);
@@ -197,7 +198,7 @@ let chain = Chain.instance.chain;
 
 console.log(`\nSatoshi owns ${Chain.instance.getBalanceOfAddress(satoshi.publicKey)} acres of land`);
 console.log(`Joe owns ${Chain.instance.getBalanceOfAddress(joe.publicKey)} acres of land`);
-console.log(`Peter owns ${Chain.instance.getBalanceOfAddress(peter.publicKey)} acres of land`);
+console.log(`Wachira owns ${Chain.instance.getBalanceOfAddress(wachira.publicKey)} acres of land`);
 console.log(`Isaac owns ${Chain.instance.getBalanceOfAddress(isaac.publicKey)} acres of land`);
 console.log(`Manu owns ${Chain.instance.getBalanceOfAddress(manu.publicKey)} acres of land`);
 console.log(`Bob owns ${Chain.instance.getBalanceOfAddress(bob.publicKey)} acres of land`);
