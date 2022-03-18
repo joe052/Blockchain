@@ -23,9 +23,6 @@ app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true, parameterLimit:
 app.use(express.json());
 
 app.use(express.static('newProject'));
-app.listen(port, () => {
-  console.log(`app listening on port ${port}`);
-});
 
 app.post('/data', (req, res) => {
   console.log(req.body);
@@ -101,6 +98,10 @@ app.get('/transactions', (req, res) => {
 });
 //getChain();
 console.log(impots.chain);
+
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`);
+});
 
 //https://geshan.com.np/blog/2021/01/free-nodejs-hosting/
 //www.smashingmagazine.com/2021/01/nodejs-api-ethereum-blockchain/

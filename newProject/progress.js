@@ -123,7 +123,7 @@ class Wallet {
     const response = await fetch(myUrl);
     const data = await response.json();
     //console.log("getting...");
-    const newChain = this.addPdata(data);
+    const newChain = await this.addPdata(data);
     //console.log(newChain);
     return newChain;
   }
@@ -185,7 +185,7 @@ satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
 satoshi.transactLand(300, wachira.publicKey);
 
-satoshi.filterTransaction();
+//satoshi.filterTransaction();
 //satoshi.transactLand(200, peter.publicKey);
 //satoshi.transactLand(200, grace.publicKey);
 //bob.transactLand(150, alice.publicKey);
@@ -206,6 +206,8 @@ console.log(`Alice owns ${Chain.instance.getBalanceOfAddress(alice.publicKey)} a
 console.log(`Agnes owns ${Chain.instance.getBalanceOfAddress(agnes.publicKey)} acres of land`);
 console.log(`Ann owns ${Chain.instance.getBalanceOfAddress(ann.publicKey)} acres of land`);
 console.log(`Grace owns ${Chain.instance.getBalanceOfAddress(grace.publicKey)} acres of land`);
+
+satoshi.filterTransaction();
 
 module.exports = {
     chain: chain,
