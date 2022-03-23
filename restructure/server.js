@@ -22,7 +22,7 @@ const courses = [
 app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true, parameterLimit: 100000000000 }));
 app.use(express.json());
 
-app.use(express.static('newProject'));
+//app.use(express.static('newProject'));
 
 app.post('/data', (req, res) => {
   console.log(req.body);
