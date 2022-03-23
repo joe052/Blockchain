@@ -88,7 +88,9 @@ class Chain {
   }
 
   //update chain with that from network
-
+  updateBlocks(blocks){
+    this.chain = blocks;//you have to complete this...
+  }
 }
 
 class Wallet {
