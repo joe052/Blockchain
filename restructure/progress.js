@@ -198,7 +198,6 @@ satoshi.transactLand(300, wachira.publicKey);
 
 //console.log(Chain.instance.chain);
 //console.log(JSON.stringify(Chain.instance,null,4));
-let chain = Chain.instance.chain;
 
 console.log(`\nSatoshi owns ${Chain.instance.getBalanceOfAddress(satoshi.publicKey)} acres of land`);
 console.log(`Joe owns ${Chain.instance.getBalanceOfAddress(joe.publicKey)} acres of land`);
@@ -212,14 +211,16 @@ console.log(`Ann owns ${Chain.instance.getBalanceOfAddress(ann.publicKey)} acres
 console.log(`Grace owns ${Chain.instance.getBalanceOfAddress(grace.publicKey)} acres of land`);
 
 //satoshi.filterTransaction();
+let chain = Chain.instance.chain;
+
+// module.exports.updateBlocks = function (blocks) { 
+//     chain = blocks;//you have to complete this...
+// };
 
 module.exports = {
     chain: chain,
-    trans: transArr
+    trans: transArr,
+    updateBlocks: blocks => {chain = blocks;}
 }
-
-module.exports.updateBlocks = function (blocks) { 
-    chain = blocks;//you have to complete this...
-};
 //module.exports.chain = chain;
 //module.exports.trans = transArr;

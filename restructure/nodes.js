@@ -29,17 +29,15 @@ class Nodes {
       .then(resp => {
         return resp.json();
       })
-      //return this.returner();
       .then(respBlockchain => {
-        respBlockchain = respBlockchain[0];
-        console.log(respBlockchain);
+        console.log(respBlockchain.length);
+        //console.log(blockchain.length);
         if(blockchain.length < respBlockchain.length){
-        //if(Object.keys(blockchain).length < respBlockchain.length){
           impots.updateBlocks(respBlockchain);
-          //response.push({synced: node,data: respBlockchain});
+          //response.push({synced: node,data: blockchain});
           response.push({synced: node});
         }else{
-          //response.push({noAction: node,data: respBlockchain});
+          //response.push({noAction: node,data: blockchain});
           response.push({noAction: node});
         }
 
