@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const impots = require('./progress.js');
+const impots = require('./progress');
 
 class Nodes {
   constructor(url, port) {
@@ -20,19 +20,30 @@ class Nodes {
     let errCount = 0;
 
     this.list.forEach(node =>{
-      fetch(node + '/blockchain')
+      fetch(node + '/blockchain',{
+        headers : { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
       .then(resp => {
         return resp.json();
       })
+      //return this.returner();
       .then(respBlockchain => {
-        if(blockchain.blocks.length < respBlockchain.length){
-          blockchain.updateBlocks(respBlockchain);
+        respBlockchain = respBlockchain[0];
+        console.log(respBlockchain);
+        if(blockchain.length < respBlockchain.length){
+        //if(Object.keys(blockchain).length < respBlockchain.length){
+          impots.updateBlocks(respBlockchain);
+          //response.push({synced: node,data: respBlockchain});
           response.push({synced: node});
         }else{
+          //response.push({noAction: node,data: respBlockchain});
           response.push({noAction: node});
         }
 
-        if(++completed = nNodes){
+        if(++completed == nNodes){
           if(errCount == nNodes){
             res.status(500);
           }
@@ -43,7 +54,7 @@ class Nodes {
         ++errCount;
         response.push({error: error.message});
         
-        if(++completed = nNodes){
+        if(++completed == nNodes){
           if(errCount == nNodes){
             res.status(500);
           }
@@ -53,6 +64,7 @@ class Nodes {
     });
   }
 
+  //do this immediately after adding a new block
   broadcast() {
     this.list.forEach(node =>{
       fetch(node + '/resolve')//define correct route...
@@ -68,3 +80,5 @@ class Nodes {
     });
   }
 }
+
+module.exports = Nodes;

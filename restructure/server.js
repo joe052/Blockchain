@@ -10,20 +10,23 @@ const port = process.env.PORT || 8000;
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 
+const Nodes = require('./nodes.js');
+
+// Load env vars
+const url = process.env.URL || '0.0.0.0';
+//const port = process.env.PORT || 4000;
+
 const myUrl1 = 'https://blockchain.michomapeter.repl.co/blockchain';
 const myUrl = 'https://client-blockchain.joeroyalty00.repl.co/blockchain';
-
-const courses = [
-  { id: 1, name: 'maths' },
-  { id: 2, name: 'science' },
-  { id: 3, name: 'education' }
-];
 
 app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true, parameterLimit: 100000000000 }));
 app.use(express.json());
 
 //app.use(express.static('newProject'));
 
+let nodes = new Nodes(url, port);
+
+//testing my server with postman
 app.post('/data', (req, res) => {
   console.log(req.body);
 });
@@ -32,63 +35,8 @@ app.get('/', (req, res) => {
   res.send('Build on progress... @Master');
 });
 
-app.get('/api/courses', (req, res) => {
-  res.send(courses);
-});
-
-app.get('/api/courses/:id', (req, res) => {
-  const course = courses.find(c => c.id === parseInt(req.params.id));
-  if (!course) res.status(404).send('files not found!');
-  res.send(course);
-});
-
-app.post('/api/courses', (req, res) => {
-  const course = {
-    id: courses.length + 1,
-    name: req.body.name
-  };
-  courses.push(course);
-  res.send(course);
-  console.log(courses);
-});
-
 let chainM = [];
 
-async function getChain() {
-  const response = await fetch(myUrl);
-  const data = await response.json();
-  console.log("\ngetting...");
-  const chain = addData(data);
-  return chain;
-}
-
-//push new block with transaction to chain
-function addData(object) {
-  chainM.push(object);
-
-  //picking chain elements only #filtering
-  chainM = chainM[0];
-  console.log("This is the chain i fetched:")
-  //console.log(chainM);
-
-  //special .length for objects...checking length of fetched chain
-  console.log(Object.keys(chainM).length);
-
-  //getting latest block of chain
-  const latest = chainM[Object.keys(chainM).length - 1];
-  //console.log("\nbelow lies the latest")
-  //console.log(latest.hash);
-  return chainM;
-}
-async function getter() {
-  if (getChain()) {
-    impots.chain = await getChain();
-  }else{
-    impots.chain;
-  }
-}
-
-//getter();
 app.get('/blockchain', (req, res) => {
   res.send(impots.chain);
 });
@@ -96,8 +44,12 @@ app.get('/blockchain', (req, res) => {
 app.get('/transactions', (req, res) => {
   res.send(impots.trans);
 });
-//getChain();
-console.log(impots.chain);
+
+app.get('/resolve',(req,res) =>{
+  nodes.resolve(res, impots.chain);
+});
+
+//console.log(impots.chain);
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);

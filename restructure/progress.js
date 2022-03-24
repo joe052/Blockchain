@@ -211,11 +211,15 @@ console.log(`Agnes owns ${Chain.instance.getBalanceOfAddress(agnes.publicKey)} a
 console.log(`Ann owns ${Chain.instance.getBalanceOfAddress(ann.publicKey)} acres of land`);
 console.log(`Grace owns ${Chain.instance.getBalanceOfAddress(grace.publicKey)} acres of land`);
 
-satoshi.filterTransaction();
+//satoshi.filterTransaction();
 
 module.exports = {
     chain: chain,
     trans: transArr
 }
+
+module.exports.updateBlocks = function (blocks) { 
+    chain = blocks;//you have to complete this...
+};
 //module.exports.chain = chain;
 //module.exports.trans = transArr;
