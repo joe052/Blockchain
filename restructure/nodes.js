@@ -1,11 +1,12 @@
 const fetch = require('node-fetch');
-const impots = require('./progress');
+const impots = require('./progressed.js');
 
 class Nodes {
   constructor(url, port) {
     const nodes = require("./routes.json");
     const currentURL = url + ':' + port;
     this.list = [];
+    this.response = [];
 
     for(let i in nodes){
       if (nodes[i].indexOf(currentURL) == -1)
@@ -16,7 +17,8 @@ class Nodes {
   resolve(res,blockchain){
     let completed = 0;
     let nNodes = this.list.length;
-    let response = [];
+    let data = [];
+    let main = [];
     let errCount = 0;
 
     this.list.forEach(node =>{
@@ -30,33 +32,35 @@ class Nodes {
         return resp.json();
       })
       .then(respBlockchain => {
-        console.log(respBlockchain.length);
+        //console.log(respBlockchain.length);
         //console.log(blockchain.length);
         if(blockchain.length < respBlockchain.length){
           impots.updateBlocks(respBlockchain);
-          //response.push({synced: node,data: blockchain});
-          response.push({synced: node});
+          //response.push({synced: node,data: respBlockchain});
+          this.response.push({synced: node});
+          data.push(respBlockchain);
         }else{
-          //response.push({noAction: node,data: blockchain});
-          response.push({noAction: node});
+          //response.push({noAction: node,data: respBlockchain});
+          this.response.push({noAction: node});
+          data.push(respBlockchain);
         }
 
         if(++completed == nNodes){
           if(errCount == nNodes){
             res.status(500);
           }
-          res.send(response);
+          res.send(data);
         }
       })
       .catch(error => {
         ++errCount;
-        response.push({error: error.message});
+        this.response.push({error: error.message});
         
         if(++completed == nNodes){
           if(errCount == nNodes){
             res.status(500);
           }
-          res.send(response);
+          res.send(data);
         }
       });
     });
@@ -76,6 +80,10 @@ class Nodes {
         console.log(node, error);
       });
     });
+  }
+
+  allNodes(res){
+    res.send(this.response);
   }
 }
 

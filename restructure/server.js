@@ -3,7 +3,7 @@
 // import{bodyParser} from ('body-parser');
 // import{fetch} from ('node-fetch');
 
-let impots = require("./progress.js");
+let impots = require("./progressed.js");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
@@ -12,12 +12,18 @@ const fetch = require('node-fetch');
 
 const Nodes = require('./nodes.js');
 
+//determining which chain to use
+const status = impots.tester;
+if(status == false){
+  impots = require("./progress.js");
+}
+
 // Load env vars
 const url = process.env.URL || '0.0.0.0';
 //const port = process.env.PORT || 4000;
 
 const myUrl1 = 'https://blockchain.michomapeter.repl.co/blockchain';
-const myUrl = 'https://client-blockchain.joeroyalty00.repl.co/blockchain';
+const myUrl = 'https://client-blockchain.joeroyalty00.repl.co';
 
 app.use(bodyParser.urlencoded({ limit: '5000mb', extended: true, parameterLimit: 100000000000 }));
 app.use(express.json());
@@ -32,7 +38,7 @@ app.post('/data', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Build on progress... @Master');
+  res.send('Build on progress... @Client');
 });
 
 let chainM = [];
@@ -49,7 +55,14 @@ app.get('/resolve',(req,res) =>{
   nodes.resolve(res, impots.chain);
 });
 
+app.get('/allNodes',(req,res) =>{
+  nodes.allNodes(res);
+});
+
 //console.log(impots.chain);
+//nodes.broadcast();
+//impots.teest(myUrl);
+// console.log("Chain status is ",status);
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);
