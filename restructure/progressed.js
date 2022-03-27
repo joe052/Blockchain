@@ -6,7 +6,7 @@ const url = 'https://blockchain.joeroyalty00.repl.co/';
 
 const myUrl = "https://blockchain.joeroyalty00.repl.co/blockchain";
 
-//let states
+let x = [];
 
 function status(){
   let tester = 54;
@@ -265,6 +265,12 @@ const satoshi = new Wallet('satoshi');
 //const agnes = new Wallet('agnes');
 
 satoshi.transactLand(200,'ann_prog');
+async function tester(){
+  const result = await satoshi.testChain();
+  console.log(result+" chaaain");
+}
+
+tester();
 //wachira.transactLand(155,'grace');
 
 //Chain.instance.getPchain();
@@ -273,13 +279,10 @@ satoshi.transactLand(200,'ann_prog');
 //console.log(JSON.stringify(Chain.instance,null,4));
 
 let chain = Chain.instance.chain;
-console.log(status());
-//const states = status();
-//console.log("Chain status is ",states);
 
 module.exports = {
     chain: chain,
     updateBlocks: blocks => {chain = blocks;},
-    
+    tester: true,
     teest: node => {Chain.instance.getResolve(node);}
 }

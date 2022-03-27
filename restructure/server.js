@@ -3,7 +3,7 @@
 // import{bodyParser} from ('body-parser');
 // import{fetch} from ('node-fetch');
 
-let impots = require("./progressed.js");
+let impots = require("./progress.js");
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
@@ -14,7 +14,7 @@ const Nodes = require('./nodes.js');
 
 //determining which chain to use
 const status = impots.tester;
-if(status == false){
+if(status === false){
   impots = require("./progress.js");
 }
 
