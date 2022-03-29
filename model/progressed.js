@@ -72,7 +72,6 @@ class Chain {
       
       //adding transaction to acquired chain
       this.addTransaction(genesis,transaction);
-      console.log("empty....");
     }else{
       console.log(allChain.length);
       allChain.sort();
