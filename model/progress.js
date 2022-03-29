@@ -2,48 +2,9 @@
 //const crypto = require('crypto-js');
 const fetch = require('node-fetch');
 const SHA256 = require('crypto-js/sha256');
-const url = 'https://blockchain.joeroyalty00.repl.co/';
+const url = 'https://blockchain.joeroyalty00.repl.co';
 
 const myUrl = "https://blockchain.joeroyalty00.repl.co/blockchain";
-
-let x = [];
-
-function status(){
-  let tester = 54;
-  fetch(url + '/resolve')
-  .then(resp => {
-    return resp.json();
-  })
-  .then(result =>{
-    let allChain = Chain.instance.addArray(result);
-    allChain.sort();
-    const newChain = allChain[allChain.length - 1];
-    return newChain;
-  })
-  .then(newChain =>{
-    let tester;
-    if(newChain.length == 0){
-      console.log("nothing");
-      tester = false;
-    }else{
-      console.log("something found below\n");
-      console.log(chain);
-      tester = true;
-    }
-    //console.log(tester);
-    return tester;
-  })
-  .then(tester =>{
-    console.log(tester);
-    return tester
-  });
-  return tester;
-  // .catch(error =>{
-  //   console.log(error);
-  // });
-  // console.log(tester);
-  // return tester;
-}
 
 class Transaction {
   constructor(owner, receiver, size) {
@@ -100,7 +61,7 @@ class Chain {
 
   //get chain from api and push transaction
   async getResolve(node,transaction){
-    const response = await fetch(url + '/resolve');
+    const response = await fetch(node + '/resolve');
     const result = await response.json();
     //let bigChain = [];
       //shared method addArray() in complex section
@@ -209,20 +170,6 @@ class Wallet {
     //this.bal = bal;
   }
 
-  async testChain(){
-    let tester=null;
-    const chain = await Chain.instance.returner();
-    if(chain.length == 0){
-      console.log("nothing");
-      tester = false;
-    }else{
-      console.log("something found below\n");
-      console.log(chain);
-      tester = true;
-    }
-    return tester;
-  }
-  
   async transactLand(size, receiverPublicKey) {
     let minimum = this.minimum;
     let availableLand =  await Chain.instance.getBalanceOfAddress(this.publicKey);
@@ -252,7 +199,6 @@ class Wallet {
 }
 
 const satoshi = new Wallet('satoshi');
-//satoshi.testChain();
 //const wachira = new Wallet('wachira');
 //const bob = new Wallet('bob');
 //const alice = new Wallet('alice');
@@ -264,13 +210,8 @@ const satoshi = new Wallet('satoshi');
 //const peter = new Wallet('peter');
 //const agnes = new Wallet('agnes');
 
-satoshi.transactLand(200,'ann_prog');
-async function tester(){
-  const result = await satoshi.testChain();
-  console.log(result+" chaaain");
-}
 
-tester();
+satoshi.transactLand(200,'ann');
 //wachira.transactLand(155,'grace');
 
 //Chain.instance.getPchain();
@@ -283,6 +224,5 @@ let chain = Chain.instance.chain;
 module.exports = {
     chain: chain,
     updateBlocks: blocks => {chain = blocks;},
-    tester: true,
     teest: node => {Chain.instance.getResolve(node);}
 }

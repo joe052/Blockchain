@@ -189,7 +189,7 @@ satoshi.transactLand(250, joe.publicKey);
 satoshi.transactLand(300, isaac.publicKey);
 satoshi.transactLand(300, wachira.publicKey);
 
-//satoshi.filterTransaction();
+satoshi.filterTransaction();
 //satoshi.transactLand(200, peter.publicKey);
 //satoshi.transactLand(200, grace.publicKey);
 //bob.transactLand(150, alice.publicKey);
