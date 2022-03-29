@@ -66,21 +66,27 @@ class Chain {
     //let bigChain = [];
       //shared method addArray() in complex section
     let allChain = this.addArray(result);
-    if(allChain.length == 0){
-      console.log("empty....");
-    }
-    console.log(allChain.length);
-    allChain.sort();
-    const newChain = allChain[allChain.length - 1];
-    //console.log(newChain);
-    //console.log(newChain.length);
-
-    //adding transaction to acquired chain
-    this.addData(newChain,transaction);
     
-    for(const i of allChain){
-      //console.log(i.length);
-    }  
+    if(allChain.length == 0){
+      const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
+      
+      //adding transaction to acquired chain
+      this.addTransaction(genesis,transaction);
+      console.log("empty....");
+    }else{
+      console.log(allChain.length);
+      allChain.sort();
+      const newChain = allChain[allChain.length - 1];
+      //console.log(newChain);
+      console.log(newChain.length);
+
+      //adding transaction to acquired chain
+      this.addData(newChain,transaction);
+    
+      for(const i of allChain){
+        //console.log(i.length);
+      }  
+    }
   }
 
   //cleaning
@@ -91,7 +97,7 @@ class Chain {
     return newChain;
   }
   
-  /*-------------------------------complex----------------------------------------------------*/
+  /*-------------------------end of complex----------------------------------------------------*/
 
   //push new block with transaction to chain
   addData(object,transaction) {
@@ -121,6 +127,21 @@ class Chain {
     //console.log("\nupdate successfully complete!!");
   }
 
+  //push new block to genesis incase no chain is available
+  addTransaction(genesis,transaction){
+    this.chain.push(genesis);
+    //picking chain elements only #filtering
+    this.chain = this.chain[0];
+    //creating and mining new block and adding transaction
+    const newBlock = new Block(this.getLatestBlock().hash, transaction);
+    newBlock.mineBlock(this.difficulty);
+    console.log(transaction);
+    this.chain.push(newBlock);
+    console.log(this.chain);
+    console.log(this.chain.length);
+    console.log("\nupdate successfully complete!!");
+  }
+
   /*----------------test to get the pure chain only------------------------------------------------*/
   
  //get chain
@@ -140,9 +161,14 @@ class Chain {
 
   returner(){
     //console.log("returning");
-    return this.getPchain();
+    //return this.getPchain();
   }
 /*-----------------------end of test---------------------------------------------*/
+  
+  //get last block
+  getLatestBlock() {
+    return this.chain[this.chain.length - 1];
+  }
 
   //get balance
   async getBalanceOfAddress(address) {

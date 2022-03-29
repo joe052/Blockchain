@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const impots = require('./progress.js');
+const impots = require('./progressed.js');
 
 class Nodes {
   constructor(url, port) {
