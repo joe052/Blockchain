@@ -42,7 +42,7 @@ app.get('/blockchain', (req, res) => {
 });
 
 app.get('/transactions', (req, res) => {
-  res.send(impots.trans);
+  res.send(impots.transactions);
 });
 
 app.get('/resolve',(req,res) =>{
