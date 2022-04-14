@@ -73,39 +73,35 @@ class Chain {
       console.log(newChain.length);
 
       //adding transaction to acquired chain
-      const chain = this.addData(newChain,transaction); 
+      const chain = this.addData2(newChain,transaction); 
+
+      //filtering transactions
+      //this.filterTransaction(chain);
+    }
+  }
+  async getResolveTest(transaction){
+    //get the chain first
+    const newChain = await this.getPchain();
+    if(newChain == null){
+      const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
+      
+      //adding transaction to acquired chain
+      const genchain = this.addTransaction(genesis,transaction);
+
+      //filtering transactions
+      this.filterTransaction(genchain);
+    }else{
+      console.log(newChain.length);
+
+      //adding transaction to acquired chain
+      const chain = this.addData2(newChain,transaction); 
 
       //filtering transactions
       this.filterTransaction(chain);
     }
+    //this.filterTransaction(chain);
   }
-  async getResolve2(node,transaction){
-    const response = await fetch(node + '/resolve');
-    const result = await response.json();
-    //let bigChain = [];
-      //shared method addArray() in complex section
-    let allChain = this.addArray(result);
-    
-    if(allChain.length == 0){
-      const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
-      
-      //adding transaction to acquired chain
-      this.addTransaction(genesis,transaction);
-    }else{
-      console.log(allChain.length);
-      allChain.sort();
-      const newChain = allChain[allChain.length - 1];
-      //console.log(newChain);
-      console.log(newChain.length);
 
-      //adding transaction to acquired chain
-      this.addData(newChain,transaction);
-    
-      for(const i of allChain){
-        //console.log(i.length);
-      }  
-    }
-  }
 
   //cleaning
   addArray(object) {
@@ -123,8 +119,8 @@ class Chain {
     
     //picking chain elements only #filtering
     this.chain = this.chain[0];
-    console.log("This is the chain i fetched:");
-    //console.log(this.chain);
+    
+    console.log(this.chain);
     
     //special .length for objects...checking length of fetched chain
     console.log(Object.keys(this.chain).length);
@@ -145,19 +141,79 @@ class Chain {
     return this.chain;
   }
 
-  //push new block to genesis incase no chain is available
-  addTransaction(genesis,transaction){
-    this.chain.push(genesis);
+  addData2(object,transaction) {
+    //const response = await fetch(url + '/resolve');
+    let setup = [];
+    setup.push(object);
+   
     //picking chain elements only #filtering
-    this.chain = this.chain[0];
+    setup = setup[0];
+    //setup = setup[0];
+      
+    console.log("This is the chain i fetched:");
+    //console.log(setup);
+
+    //checking length of fetched chain
+    console.log(setup.length);
+
+    //getting latest block of chain
+    const latest = setup[Object.keys(setup).length -1];
+    //console.log("\nbelow lies the latest")
+    //console.log(latest.hash);
+
     //creating and mining new block and adding transaction
-    const newBlock = new Block(this.getLatestBlock().hash, transaction);
+    const newBlock = new Block(latest.hash, transaction);
     newBlock.mineBlock(this.difficulty);
     console.log(transaction);
-    this.chain.push(newBlock);
-    console.log(this.chain);
-    console.log(this.chain.length);
+    setup.push(newBlock);
+    //console.log(setup);
+    //console.log(Object.keys(setup).length);
+    console.log(`setups length is ${setup.length}`);
+  
+    //pushing update to blockchain
+    if (Array.isArray(this.chain)) {
+
+      //emptying previous array
+      while(this.chain.length){
+        this.chain.pop();
+      } 
+
+      //pushing new array
+      for(const x in setup){
+        const data = setup[x];
+        this.chain.push(data);
+      }
+      //this.chain.push(setup);
+    }
+
+    //console.log(this.chain); 
+    console.log(`blockchains length is ${this.chain.length}`);
     console.log("\nupdate successfully complete!!");
+    return this.chain;
+  }
+
+  //push new block to genesis incase no chain is available
+  addTransaction(genesis,transaction){
+    let setup = [];
+    setup.push(genesis);
+
+    //picking chain elements only #filtering
+    setup = setup[0];
+    
+    //creating and mining new block and adding transaction
+    const newBlock = new Block(this.getLatestBlock2(setup).hash, transaction);
+    newBlock.mineBlock(this.difficulty);
+    console.log(transaction);
+    setup.push(newBlock);
+    //console.log(setup);
+    console.log(`setups length is ${setup.length}`);
+
+    //pushing update to blockchain
+    this.chain.push(setup);
+    this.chain = this.chain[0];
+    console.log(`blockchain's length is ${this.chain.length}`);
+    console.log("\nupdate successfully complete!!");
+    return this.chain;
   }
 
   /*----------------test to get the pure chain only------------------------------------------------*/
@@ -173,7 +229,7 @@ class Chain {
     allChain.sort();
     const newChain = allChain[allChain.length - 1];
     //console.log(newChain);
-    console.log(newChain.length);
+    //console.log(newChain.length);
     return newChain;
   }
 
@@ -187,16 +243,22 @@ class Chain {
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
+  
+  getLatestBlock2(array) {
+    return array[array.length - 1];
+  }
 
   //filter transactions only from chain
   filterTransaction(chain){
-    //let transArr = [];
+    const arrTrans = [];
     //const chain = await this.returner();
     for(const block of chain){
       const trans = block.transaction;
-      this.transArr.push(trans);
+      arrTrans.push(trans);
     }
-    console.log(this.transArr);
+    //const update = arrTrans[arrTrans.length - 1];
+    this.transArr.push(arrTrans);
+    console.log(`transactions are ${this.transArr.length}`);
     return this.transArr;
   }
 
@@ -217,6 +279,10 @@ class Chain {
     }
     return balance;
     //console.log(balance);
+  }
+
+  async chainSender(res){
+    //res.send(this.chain);
   }
 
 }
@@ -248,7 +314,7 @@ class Wallet {
       if (size >= minimum) {
         const transaction = new Transaction(this.publicKey, receiverPublicKey, size);
         //Chain.instance.getChain(transaction);
-        Chain.instance.getResolve(transaction);
+        Chain.instance.getResolveTest(transaction);
         //console.log(transaction);
       } else {
         console.log(`\nunable to initiate transaction from ${this.publicKey}...minimum transactable size is ${minimum}`);
@@ -265,12 +331,12 @@ class Wallet {
   }
 }
 
-const satoshi = new Wallet('satoshi');
+//const satoshi = new Wallet('satoshi');
 //const wachira = new Wallet('wachira');
 
 
 
-satoshi.transactLand(800,'banda');
+//satoshi.transactLand(800,'tredmill');
 //Chain.instance.filterTransaction();
 
 //Chain.instance.getPchain();
@@ -284,5 +350,7 @@ let transArr = Chain.instance.transArr;
 module.exports = {
     chain: chain,
     updateBlocks: blocks => {chain = blocks;},
-    transactions: transArr
+    transactions: transArr,
+    wallet: Wallet,
+    mega: Chain
 }
