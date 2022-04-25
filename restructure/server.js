@@ -37,9 +37,9 @@ let nodes = new Nodes(url, port);
 let chain = new Chain();
 
 //method to refresh blockchain at a specified interval
-/*setInterval(()=>{
-  chain.updater();
-},5000);*/
+setInterval(()=>{
+  chain.chainUpdater();
+},120000);
 
 //testing my server with postman
 app.post('/data', (req, res) => {
@@ -53,34 +53,6 @@ app.get('/', (req, res) => {
 let chainM = [];
 app.get('/blockchain',(req,res) =>{
   res.send(impots.chain[0]);
-});
-
-app.get('/boost', (req, res) => {
-  if(impots.chain.length == 0){
-    //res.write(null);
-    res.end();
-  }else{
-    //impots.chain = impots.chain[0];
-    /*setInterval(()=>{
-    //res.send(impots.chain[0]);
-    res.write(JSON.stringify(impots.chain[0]));
-    res.end();
-    },5000);*/
-    console.log (status);
-    if(status == true){
-      setInterval(()=>{
-      //res.send(impots.chain[0]);
-      //res.write([]);
-      //res.write(JSON.stringify(impots.chain[0]));
-      res.send(JSON.stringify(impots.chain[0]));
-      },5000);
-      //res.write(JSON.stringify(impots.chain[0]));
-      //res.end();
-    }
-    //status = false;
-  }
-  //res.connection.setKeepAlive(true, 20000)
-  //res.send(impots.chain[0]);
 });
 
 app.get('/blockchains',(req,res) =>{

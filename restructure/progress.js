@@ -65,7 +65,7 @@ class Chain {
     //get the chain first
     const newChain = await this.getPchain();
     console.log("recent blockchain update in use has blocks:");
-    if(newChain == null){
+    if(newChain == null || newChain.length == 0){
       const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
       
       //adding transaction to acquired chain
@@ -82,7 +82,6 @@ class Chain {
       //filtering transactions
       this.filterTransaction(chain);
     }
-    //this.filterTransaction(chain);
   }
 
 
@@ -98,7 +97,6 @@ class Chain {
 
   //push new block with transaction to chain
    addData(object,transaction) {
-    //const response = await fetch(url + '/resolve');
     let setup = [];
     setup.push(object);
    
@@ -248,8 +246,46 @@ class Chain {
     //console.log(balance);
   }
 
-  async chainSender(res){
-    //res.send(this.chain);
+  async chainUpdater(){
+    //get the chain first
+    const newChain = await this.getPchain();
+    console.log("recent blockchain update in use has blocks:");
+    console.log(newChain.length);
+
+    //adding transaction to acquired chain
+    //const chain = this.addData(newChain,transaction);
+    let setup = [];
+    setup.push(newChain);
+    //picking chain elements only #filtering
+    setup = setup[0];
+    //setup = setup[0];
+    console.log("This is the chain i fetched:");
+    //console.log(setup);
+    
+    //checking length of fetched chain
+    console.log(setup.length);
+
+    //pushing update to blockchain
+    if (Array.isArray(this.chain)) {
+
+      //emptying previous array
+      while(this.chain.length){
+        this.chain.pop();
+      } 
+
+      //pushing new array
+      for(const x in setup){
+        const data = setup[x];
+        this.chain.push(data);
+      }
+    }
+
+    //console.log(this.chain); 
+    console.log(`blockchain updated...new length is ${this.chain.length}`);
+
+    //filtering transactions
+    this.filterTransaction(this.chain);
+    return this.chain;
   }
 
 }
@@ -268,10 +304,10 @@ class Wallet {
        //check if chain is available
     const newChain = await Chain.instance.getPchain();
     
-    if(newChain == null){
+    if(newChain == null || newChain.length == 0){
       availableLand = 1000000000;
     }else{
-       availableLand =  await Chain.instance.getBalanceOfAddress(this.publicKey);
+      availableLand =  await Chain.instance.getBalanceOfAddress(this.publicKey);
     }
     
     //console.log(availableLand);
@@ -287,8 +323,8 @@ class Wallet {
         console.log(`\nunable to initiate transaction from ${this.publicKey}...minimum transactable size is ${minimum}`);
       }
 
-    } else {
-      console.log("\ninsufficient land size to initiate transaction from", this.publicKey);
+    } else{
+      console.log(`\ninsufficient land size to initiate transaction from ${this.publicKey} available balance is ${availableLand}`);
     }
 
   }
