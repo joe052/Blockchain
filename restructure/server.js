@@ -47,7 +47,7 @@ let chain = new Chain();
 
 //method to refresh blockchain at a specified interval
 setInterval(()=>{
-  //user.update();
+  user.update();
 },60000);
 
 //testing my server with postman
@@ -61,8 +61,11 @@ app.get('/', (req, res) => {
 
 let chainM = [];
 app.get('/blockchain',(req,res) =>{
-  //console.log(`imported status: ${impots.status}`);
-  res.send(impots.chain[0]);
+  if(impots.chain.length == 1){
+    res.send(impots.chain[0]);
+  }else{
+    res.send(impots.chain);
+  }
 });
 
 app.get('/blockchains',(req,res) =>{
