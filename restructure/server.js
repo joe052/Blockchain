@@ -15,6 +15,15 @@ const Nodes = require('./nodes.js');
 const Chain = impots.mega;
 let status;
 
+//creating user
+let user = new User('satoshi');
+
+if(impots.chain.length == 0){
+  console.log("nothing!!!");
+}else{
+  console.log("something!!!");
+}
+
 /*if(impots.chain.length !== 0){
   impots.chain = impots.chain[0];
 }*/
@@ -38,8 +47,8 @@ let chain = new Chain();
 
 //method to refresh blockchain at a specified interval
 setInterval(()=>{
-  chain.chainUpdater();
-},120000);
+  //user.update();
+},60000);
 
 //testing my server with postman
 app.post('/data', (req, res) => {
@@ -52,6 +61,7 @@ app.get('/', (req, res) => {
 
 let chainM = [];
 app.get('/blockchain',(req,res) =>{
+  //console.log(`imported status: ${impots.status}`);
   res.send(impots.chain[0]);
 });
 
@@ -76,7 +86,6 @@ app.post('/stuff',(req,res)=>{
   console.log('receiving request');
   console.log(req.body);
   const data = req.body;
-  let user = new User('satoshi')
   user.transact(data);
   status = true;
 });

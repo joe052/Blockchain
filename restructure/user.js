@@ -20,6 +20,11 @@ class User{
     let wall = new Wallet(this.publicKey);
     wall.transactLand(x,y);
   }
+
+  update(){
+    let wall = new Wallet(this.publicKey);
+    wall.chainUpdate();
+  }
 }
 
 //let user = new User('satoshi')

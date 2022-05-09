@@ -56,6 +56,7 @@ class Chain {
     this.chain = [];
     this.transArr = [];
     this.difficulty = 3;
+    this.status = false;
   }
   
   /*-------------------------------complex----------------------------------------------------*/
@@ -65,7 +66,10 @@ class Chain {
     //get the chain first
     const newChain = await this.getPchain();
     console.log("recent blockchain update in use has blocks:");
+
     if(newChain == null || newChain.length == 0){
+      this.status = true;
+      console.log(this.status);
       const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
       
       //adding transaction to acquired chain
@@ -246,7 +250,7 @@ class Chain {
     //console.log(balance);
   }
 
-  async chainUpdater(){
+  async chainUpdate(){
     //get the chain first
     const newChain = await this.getPchain();
     console.log("recent blockchain update in use has blocks:");
@@ -265,6 +269,9 @@ class Chain {
     //checking length of fetched chain
     console.log(setup.length);
 
+    //important array for capsulation
+    let arr = [];
+
     //pushing update to blockchain
     if (Array.isArray(this.chain)) {
 
@@ -272,20 +279,24 @@ class Chain {
       while(this.chain.length){
         this.chain.pop();
       } 
-
+      
       //pushing new array
       for(const x in setup){
         const data = setup[x];
-        this.chain.push(data);
+        arr.push(data);
+        //this.chain.push(data);
       }
+      this.chain.push(arr);
     }
 
     //console.log(this.chain); 
-    console.log(`blockchain updated...new length is ${this.chain.length}`);
+    console.log(`blockchain updated...new length is ${arr.length}`);
 
     //filtering transactions
-    this.filterTransaction(this.chain);
+    this.filterTransaction(arr);
+    
     return this.chain;
+    //the method sends an encapsulated chain i.e.[[chain]].....relevant because of res.send(impots.chain[0])
   }
 
 }
@@ -296,6 +307,10 @@ class Wallet {
     this.publicKey = publicKey;
     this.minimum = 100;
     //this.bal = bal;
+  }
+
+  async chainUpdate(){
+    Chain.instance.chainUpdate();
   }
 
   async transactLand(size, receiverPublicKey) {
@@ -332,11 +347,14 @@ class Wallet {
 
 let chain = Chain.instance.chain;
 let transArr = Chain.instance.transArr;
+let status = Chain.instance.status;
+//console.log(status);
 
 module.exports = {
     chain: chain,
     updateBlocks: blocks => {chain = blocks;},
     transactions: transArr,
+    status: status,
     wallet: Wallet,
     mega: Chain
 }
