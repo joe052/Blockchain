@@ -13,20 +13,9 @@ const fetch = require('node-fetch');
 
 const Nodes = require('./nodes.js');
 const Chain = impots.mega;
-let status;
 
 //creating user
 let user = new User('satoshi');
-
-if(impots.chain.length == 0){
-  console.log("nothing!!!");
-}else{
-  console.log("something!!!");
-}
-
-/*if(impots.chain.length !== 0){
-  impots.chain = impots.chain[0];
-}*/
 
 console.log(impots.chain);
 
@@ -90,7 +79,6 @@ app.post('/stuff',(req,res)=>{
   console.log(req.body);
   const data = req.body;
   user.transact(data);
-  status = true;
 });
 
 //console.log(impots.chain);
