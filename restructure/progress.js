@@ -159,7 +159,7 @@ class Chain {
     newBlock.mineBlock(this.difficulty);
     console.log(transaction);
     setup.push(newBlock);
-    console.log(setup);
+    //console.log(setup);
     console.log(`setups length is ${setup.length}`);
 
     //pushing update to blockchain
@@ -266,9 +266,6 @@ class Chain {
     //checking length of fetched chain
     console.log(setup.length);
 
-    //important array for capsulation
-    let arr = [];
-
     //pushing update to blockchain
     if (Array.isArray(this.chain)) {
 
@@ -293,7 +290,6 @@ class Chain {
     this.filterTransaction(this.chain);
     
     return this.chain;
-    //the method sends an encapsulated chain i.e.[[chain]].....relevant because of res.send(impots.chain[0])
   }
 
 }
