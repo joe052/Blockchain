@@ -79,6 +79,7 @@ app.post('/stuff',(req,res)=>{
   console.log(req.body);
   const data = req.body;
   user.transact(data);
+  return res.redirect("index.html");
 });
 
 //console.log(impots.chain);
