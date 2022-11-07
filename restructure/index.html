@@ -4,14 +4,26 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+      href="./styles.scss"
+      rel="stylesheet"
+    />
   <title>API test</title>
 </head>
-<body style = "background-color: grey;">
-  <form action="/stuff" method="post">
+<body>
+  <div class="login">
+	<h1>Login</h1>
+    <form action="/stuff" method="post">
+    	<input type="text" name="key" placeholder="Userkey" required="required" />
+        <input type="text" name="size" placeholder="size" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Transact</button>
+    </form>
+</div>
+<!--   <form action="/stuff" method="post">
     <input type = "text" name="size">
     <input type = "text" name="key">
     <input type = "submit" value ="transact">
-  </form>
+  </form> -->
   
 </body>
 </html>

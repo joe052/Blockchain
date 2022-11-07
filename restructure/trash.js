@@ -1,3 +1,4 @@
+//https://land-verification-client.vercel.app/home
 resolve(res, blockchain) {
   let completed = 0;
   let nNodes = this.list.length;
