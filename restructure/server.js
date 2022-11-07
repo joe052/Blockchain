@@ -22,7 +22,6 @@ console.log(impots.chain);
 
 // Load env vars
 const url = process.env.URL || '0.0.0.0';
-//const port = process.env.PORT || 4000;
 
 const myUrl1 = 'https://blockchain.michomapeter.repl.co/blockchain';
 const myUrl = 'https://client-blockchain.joeroyalty00.repl.co';
