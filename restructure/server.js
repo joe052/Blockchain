@@ -1,5 +1,5 @@
-                                                  
-          // import{chain} from ('./progress.js');
+
+// import{chain} from ('./progress.js');
 // import{express} from ('express');
 // import{bodyParser} from ('body-parser');
 // import{fetch} from ('node-fetch');
@@ -35,9 +35,9 @@ let nodes = new Nodes(url, port);
 let chain = new Chain();
 
 //method to refresh blockchain at a specified interval
-setInterval(()=>{
+setInterval(() => {
   user.update();
-},60000);
+}, 60000);
 
 //testing my server with postman
 app.post('/data', (req, res) => {
@@ -49,15 +49,15 @@ app.get('/', (req, res) => {
 });
 
 let chainM = [];
-app.get('/blockchain',(req,res) =>{
-  if(impots.chain.length == 1){
+app.get('/blockchain', (req, res) => {
+  if (impots.chain.length == 1) {
     res.send(impots.chain[0]);
-  }else{
+  } else {
     res.send(impots.chain);
   }
 });
 
-app.get('/blockchains',(req,res) =>{
+app.get('/blockchains', (req, res) => {
   chain.chainSender(res);
 });
 
@@ -66,20 +66,20 @@ app.get('/transactions', (req, res) => {
   res.send(impots.transactions);
 });
 
-app.get('/resolve',(req,res) =>{
+app.get('/resolve', (req, res) => {
   nodes.resolve(res, impots.chain);
 });
 
-app.get('/allNodes',(req,res) =>{
+app.get('/allNodes', (req, res) => {
   nodes.allNodes(res);
 });
 
-app.post('/stuff',(req,res)=>{
+app.post('/stuff', (req, res) => {
   console.log('receiving request');
   console.log(req.body);
   const data = req.body;
-  user.transact(data);
-  return res.redirect("index.html");
+  user.transact(data, res);
+  //return res.redirect("index.html");
 });
 
 //console.log(impots.chain);
