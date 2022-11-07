@@ -324,7 +324,8 @@ class Wallet {
       if (size >= minimum) {
         const transaction = new Transaction(this.publicKey, receiverPublicKey, size);
         //Chain.instance.getChain(transaction);
-        Chain.instance.getResolve(transaction);
+        Chain.instance.getResolve(transaction);      
+        res.redirect("index.html");
         //console.log(transaction);
       } else {
         response = `\nunable to initiate transaction from ${this.publicKey}...minimum transactable size is ${minimum}`;
