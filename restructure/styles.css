@@ -34,6 +34,8 @@ body {
 	height:300px;
 }
 .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+.login h4 { color: #3db9d1; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:2px; text-align:center; }
+.login h4 span { color:#3dd1a0; }
 
 input { 
 	width: 100%; 
