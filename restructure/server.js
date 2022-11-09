@@ -58,7 +58,7 @@ app.get('/blockchain', (req, res) => {
 });
 
 app.get('/blockchains', (req, res) => {
-  chain.chainSender(res);
+  //chain.chainSender(res);
 });
 
 app.get('/transactions', (req, res) => {

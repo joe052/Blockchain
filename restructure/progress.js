@@ -317,6 +317,7 @@ class Wallet {
     } else {
       availableLand = await Chain.instance.getBalanceOfAddress(this.publicKey);
     }
+    let newBalance = availableLand - size;
 
     //define response
     let response;
@@ -324,8 +325,10 @@ class Wallet {
       if (size >= minimum) {
         const transaction = new Transaction(this.publicKey, receiverPublicKey, size);
         //Chain.instance.getChain(transaction);
-        Chain.instance.getResolve(transaction);      
-        res.redirect("index.html");
+        Chain.instance.getResolve(transaction);
+        response = `\nTransaction of land size ${size} to ${receiverPublicKey} completed successfuly your new balance is  ${newBalance}`;
+        res.send({ message: response });
+        //res.redirect("index.html");
         //console.log(transaction);
       } else {
         response = `\nunable to initiate transaction from ${this.publicKey}...minimum transactable size is ${minimum}`;
