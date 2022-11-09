@@ -25,6 +25,14 @@ class User {
     let wall = new Wallet(this.publicKey);
     wall.chainUpdate();
   }
+
+  getBalance(res) {
+    return new Promise(async (resolve,reject)=>{
+      let wall = new Wallet(this.publicKey);
+      let balance = await wall.getBalance();
+      resolve(balance);
+    });    
+  }
 }
 
 //let user = new User('satoshi')

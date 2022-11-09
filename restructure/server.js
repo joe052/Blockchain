@@ -49,6 +49,8 @@ app.get('/', (req, res) => {
 });
 
 let chainM = [];
+
+/*local chain accessible here*/
 app.get('/blockchain', (req, res) => {
   if (impots.chain.length == 1) {
     res.send(impots.chain[0]);
@@ -66,14 +68,25 @@ app.get('/transactions', (req, res) => {
   res.send(impots.transactions);
 });
 
+/*all chains accessible here*/
 app.get('/resolve', (req, res) => {
   nodes.resolve(res, impots.chain);
 });
 
+/*chain statuses accessible here*/
 app.get('/allNodes', (req, res) => {
   nodes.allNodes(res);
 });
 
+/*used to send the balance*/
+app.get('/balance', (req, res) => {
+  //get balance first
+  user.getBalance().then((balance) => {
+    res.send({ balance: balance });
+  });
+});
+
+/*used by front end form*/
 app.post('/stuff', (req, res) => {
   console.log('receiving request');
   console.log(req.body);

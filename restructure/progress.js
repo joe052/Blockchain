@@ -295,28 +295,32 @@ class Chain {
 }
 
 class Wallet {
-
   constructor(publicKey) {
     this.publicKey = publicKey;
     this.minimum = 100;
-    //this.bal = bal;
+    //this.balance = this.getBalance();
   }
 
   async chainUpdate() {
     Chain.instance.chainUpdate();
   }
 
-  async transactLand(size, receiverPublicKey, res) {
-    let availableLand;
-    let minimum = this.minimum;
+  async getBalance() {
     //check if chain is available
     const newChain = await Chain.instance.getPchain();
 
+    let availableLand;
     if (newChain == null || newChain.length == 0) {
       availableLand = 10000;
     } else {
       availableLand = await Chain.instance.getBalanceOfAddress(this.publicKey);
     }
+    return availableLand;
+  }
+
+  async transactLand(size, receiverPublicKey, res) {
+    let availableLand = await this.getBalance();
+    let minimum = this.minimum;    
     let newBalance = availableLand - size;
 
     //define response
@@ -347,6 +351,7 @@ class Wallet {
 
 let chain = Chain.instance.chain;
 let transArr = Chain.instance.transArr;
+
 
 module.exports = {
   chain: chain,
