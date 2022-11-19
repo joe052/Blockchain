@@ -320,7 +320,7 @@ class Wallet {
 
   async transactLand(size, receiverPublicKey, res) {
     let availableLand = await this.getBalance();
-    let minimum = this.minimum;    
+    let minimum = this.minimum;
     let newBalance = availableLand - size;
 
     //define response
@@ -330,15 +330,15 @@ class Wallet {
         const transaction = new Transaction(this.publicKey, receiverPublicKey, size);
         //Chain.instance.getChain(transaction);
         Chain.instance.getResolve(transaction);
-        response = `\nTransaction of land size ${size} to ${receiverPublicKey} completed successfuly your new balance is  ${newBalance}`;        
+        response = `\nTransaction of land size ${size} to ${receiverPublicKey} completed successfuly your new balance is  ${newBalance}`;
       } else {
         response = `\nunable to initiate transaction from ${this.publicKey}...minimum transactable size is ${minimum}`;
-        console.log(response);       
+        console.log(response);
       }
 
     } else {
       response = `\ninsufficient land size to initiate transaction from ${this.publicKey} available balance is ${availableLand}`;
-      console.log(response);      
+      console.log(response);
     }
     res.send({ message: response });
   }
