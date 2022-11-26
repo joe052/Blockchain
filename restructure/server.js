@@ -16,7 +16,7 @@ const Nodes = require('./nodes.js');
 const Chain = impots.mega;
 
 //creating user
-let user = new User('satoshi');
+let user = new User('joe');
 
 console.log(impots.chain);
 

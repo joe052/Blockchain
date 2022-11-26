@@ -1,4 +1,4 @@
-//import * as crypto from 'crypto';
+0//import * as crypto from 'crypto';
 //const crypto = require('crypto-js');
 const fetch = require('node-fetch');
 const SHA256 = require('crypto-js/sha256');
@@ -67,7 +67,7 @@ class Chain {
     console.log("recent blockchain update in use has blocks:");
 
     if (newChain == null || newChain.length == 0) {
-      const genesis = [new Block(null, new Transaction('genesis', 'satoshi', 10000))];
+      const genesis = [new Block(null, new Transaction('genesis', 'joe', 10000))];
 
       //adding transaction to acquired chain
       const genchain = this.addTransaction(genesis, transaction);
