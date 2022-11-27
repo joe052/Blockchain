@@ -11,8 +11,6 @@
     "typescript": "^4.5.5"
   },
   "scripts": {
-    "dev": "tsc -w"
+    "dev": "node index.js"
   }
-  
-  
 }
