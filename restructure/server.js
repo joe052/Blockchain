@@ -37,7 +37,7 @@ let chain = new Chain();
 //method to refresh blockchain at a specified interval
 setInterval(() => {
   user.update();
-}, 60000);
+}, 10000);
 
 //testing my server with postman
 app.post('/data', (req, res) => {
@@ -84,6 +84,11 @@ app.get('/balance', (req, res) => {
   user.getBalance().then((balance) => {
     res.send({ balance: balance });
   });
+});
+
+/*used to send all addresse balances*/
+app.get('/allbalances', (req, res) => {
+  res.send(impots.addresses);
 });
 
 /*used by front end form*/

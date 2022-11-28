@@ -55,6 +55,7 @@ class Chain {
 
     this.chain = [];
     this.transArr = [];
+    this.allAddresses = [];
     this.difficulty = 4;
   }
 
@@ -74,6 +75,8 @@ class Chain {
 
       //filtering transactions
       this.filterTransaction(genchain);
+      //updating addresses
+      this.getBalanceofAll();
     } else {
       console.log(newChain.length);
 
@@ -82,6 +85,8 @@ class Chain {
 
       //filtering transactions
       this.filterTransaction(chain);
+      //updating addresses
+      this.getBalanceofAll();
     }
   }
 
@@ -247,6 +252,42 @@ class Chain {
     //console.log(balance);
   }
 
+  // get the balance of all
+  async getBalanceofAll(){
+    const chain = await this.returner();
+    let addressesArr = [];
+    let addressesArr2 = [];
+    let result = [];
+    
+    for (const block of chain) {
+      const trans = block.transaction;
+      addressesArr.push(trans.owner);
+      addressesArr.push(trans.receiver);
+    }
+
+    //remove all duplicates     
+    addressesArr2 = addressesArr.filter((item,
+    index) => addressesArr.indexOf(item) === index);  
+
+    for(const x of addressesArr2){
+      const balance = await this.getBalanceOfAddress(x);
+      const obj = {address: x, balance: balance};
+      result.push(obj);
+    }
+
+    //emptying previous array
+    while (this.allAddresses.length) {
+      this.allAddresses.pop();
+    }
+
+    //pushing new array
+    for (const x in result) {
+      const data = result[x];
+      this.allAddresses.push(data);
+    }   
+    return result;    
+  }
+
   async chainUpdate() {
     //get the chain first
     const newChain = await this.getPchain();
@@ -288,6 +329,8 @@ class Chain {
 
     //filtering transactions
     this.filterTransaction(this.chain);
+    //updating addresses
+      this.getBalanceofAll();
 
     return this.chain;
   }
@@ -346,12 +389,14 @@ class Wallet {
 
 let chain = Chain.instance.chain;
 let transArr = Chain.instance.transArr;
+let addresses = Chain.instance.allAddresses;
 
 
 module.exports = {
   chain: chain,
   updateBlocks: blocks => { chain = blocks; },
   transactions: transArr,
+  addresses: addresses,
   wallet: Wallet,
   mega: Chain
 }
